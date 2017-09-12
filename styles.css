@@ -1,0 +1,14 @@
+body {
+  font-size: 16px;
+  text-align: center;
+  background-color: #212d38;
+  font-family: sans-serif;
+}
+
+h1, h2 {
+  color: white;
+}
+
+h1 {
+  font-size: 3em;
+}

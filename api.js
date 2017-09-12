@@ -11,10 +11,7 @@ window.onload = function() {
     startPos = position;
     lat = startPos.coords.latitude;
     long = startPos.coords.longitude;
-    document.getElementById('startLat').innerHTML = startPos.coords.latitude;
-    document.getElementById('startLon').innerHTML = startPos.coords.longitude;
     getCoords(lat, long);
-    console.log(lat, long);
   };
   navigator.geolocation.getCurrentPosition(geoSuccess);
 };
@@ -25,9 +22,22 @@ function getCoords(lat, long){
   request.open('GET', urlName);
   request.onload = function(){
     var allData = JSON.parse(request.responseText);
+    var changeTempRead = document.getElementById('changeTemp');
+    var tempUnit = "F";
+    var fahrTemp = document.getElementById("tempInfo").innerHTML = Math.round(allData.main.temp * 9 / 5 + 32) + "&deg" + tempUnit;
+    var celsTemp = document.getElementById("tempInfo").innerHtml = allData.main.temp + "&deg" + "C";
     document.getElementById("locationInfo").innerHTML = allData.name + " , " +  allData.sys.country;
-    document.getElementById("tempInfo").innerHTML = allData.main.temp + " C " + allData.weather[0].description;
-    document.getElementById("weatherIcon").innerHTML = allData.weather[0].icon;
+    changeTempRead.addEventListener('click', function(){
+      if(tempUnit === "F" ){
+        document.getElementById("tempInfo").innerHtml = allData.main.temp + "&deg" + "C";
+        tempUnit = "C";
+      } else {
+        document.getElementById("tempInfo").innerHTML = Math.round(allData.main.temp * 9 / 5 + 32) + "&deg" + "F";
+        tempUnit = "F";
+      }
+    })
+    //document.getElementById("tempInfo").innerHTML = Math.round(fahrTemp) + "&deg;" +  " F " + allData.weather[0].description;
+    document.getElementById("weatherIcon").src = allData.weather[0].icon;
     console.log(allData);
   }
   request.send();
